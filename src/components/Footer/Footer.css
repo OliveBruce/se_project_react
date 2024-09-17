@@ -1,0 +1,9 @@
+.footer {
+  display: flex;
+  align-items: center;
+  padding: 32px 0 28px;
+}
+
+.footer__copyright-year {
+  margin-left: auto;
+}
