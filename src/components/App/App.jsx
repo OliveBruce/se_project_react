@@ -94,7 +94,7 @@ function App() {
           <Header handleAddClick={handleAddClick} weatherData={weatherData} />
           <Routes>
             <Route
-              path="/se_project_react/"
+              path="/"
               element={
                 <Main
                   weatherData={weatherData}
@@ -104,10 +104,11 @@ function App() {
               }
             />
             <Route
-              path="/se_project_react/profile"
+              path="/profile"
               element={
                 <Profile
                   handleCardClick={handleCardClick}
+                  handleAddClick={handleAddClick}
                   clothingItems={clothingItems}
                 />
               }
