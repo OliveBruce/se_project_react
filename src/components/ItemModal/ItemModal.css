@@ -1,22 +1,38 @@
-.modal__content_type_image {
+.modal__content.modal__content_type_image {
   background-color: #fff;
+  max-height: 610px;
   max-width: 498px;
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   padding: 0;
+  margin: 0;
   position: relative;
   height: min-content;
   overflow: hidden;
 }
 
 .modal__image {
-  width: 100%;
+  width: 498px;
+  height: 498px;
   object-fit: cover;
   margin: 0 0 20px;
 }
 
 .modal__footer {
   margin: 0 0 32px 32px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.modal__delete {
+  margin: 0 32px 0 auto;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: #ff4d00;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
 }
 
 .modal__caption {
