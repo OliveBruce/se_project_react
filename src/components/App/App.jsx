@@ -9,13 +9,7 @@ import ItemModal from "../ItemModal/ItemModal";
 import Profile from "../Profile/Profile";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
-import {
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import {
   getItems,
   addClothingItem,
@@ -48,22 +42,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [token, setCurrentToken] = useState(getToken);
 
   const navigate = useNavigate();
-  const location = useLocation();
-
-  function handleSubmit(request) {
-    setIsLoading(true);
-    request()
-      .then(() => {
-        closeActiveModal();
-        setIsSubmitted(true);
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
-  }
 
   const handleCardClick = (card) => {
     console.log(card);
@@ -105,7 +85,7 @@ function App() {
   };
 
   const onProfileSubmit = ({ name, avatar }) => {
-    const token = localStorage.getItem("jwt");
+    const token = getToken();
     auth
       .editProfile({ name, avatar }, token)
       .then((res) => {
@@ -116,7 +96,7 @@ function App() {
   };
 
   const handleAddItem = async (newItem) => {
-    const token = localStorage.getItem("jwt");
+    const token = getToken();
     try {
       const addedItem = await addClothingItem(newItem, token);
       setClothingItems((prevItems) => [addedItem.data, ...prevItems]);
@@ -174,7 +154,7 @@ function App() {
   };
 
   const handleCardLike = ({ id, isLiked }) => {
-    const token = localStorage.getItem("jwt");
+    const token = getToken();
 
     !isLiked
       ? addCardLike(id, token)
