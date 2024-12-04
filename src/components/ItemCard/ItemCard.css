@@ -9,14 +9,28 @@
   overflow: hidden;
 }
 
-.card__name {
+.card__header {
   position: absolute;
   top: 15px;
+  margin: 0;
+  display: flex;
+}
+
+.card__name {
   margin: 0;
   padding: 2px 12px;
   background-color: white;
   font-size: 16px;
   line-height: 20px;
+  border-radius: 4px;
+}
+
+.cards__like-wrapper {
+  background: transparent;
+  border: none;
+  margin: 0;
+  padding: 0 0 0 10px;
+  cursor: pointer;
 }
 
 .card__image {

@@ -105,3 +105,18 @@
   line-height: 20px;
   color: #fff;
 }
+
+.modal__redirect-btn {
+  margin: 0;
+  color: #0000004d;
+  background-color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border-style: none;
+  cursor: pointer;
+}
+
+.modal__buttons-wrapper {
+  margin: 0;
+  display: flex;
+}

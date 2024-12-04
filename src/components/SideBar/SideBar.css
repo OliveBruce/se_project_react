@@ -1,7 +1,12 @@
 .sidebar {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   min-width: 230px;
+}
+
+.sidebar__user-info {
+  display: flex;
+  margin-left: 0;
 }
 
 .sidebar__avatar {
@@ -14,4 +19,32 @@
   font-weight: 700;
   font-size: 20px;
   line-height: 25px;
+}
+
+.sidebar__buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar__change-profile {
+  background-color: #f3f3f3;
+  margin-bottom: 8px;
+  margin-top: 24px;
+  align-self: flex-start;
+  font-size: 20px;
+  border: none;
+  margin-left: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.sidebar__logout {
+  background-color: #f3f3f3;
+  margin-top: 10px;
+  font-size: 20px;
+  border: none;
+  padding: 0;
+  margin-right: 0px;
+  align-self: flex-start;
+  cursor: pointer;
 }

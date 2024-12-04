@@ -8,6 +8,7 @@ function ModalWithForm({
   onClose,
   isOpen,
   onSubmit,
+  redirectButton,
 }) {
   return (
     <div className={`modal ${isOpen && "modal_opened"}`}>
@@ -18,9 +19,12 @@ function ModalWithForm({
         </button>
         <form className="modal__form" onSubmit={onSubmit}>
           {children}
-          <button type="submit" className="modal__submit">
-            {buttonText}
-          </button>
+          <div className="modal__buttons-wrapper">
+            <button type="submit" className="modal__submit">
+              {buttonText}
+            </button>
+            {redirectButton && redirectButton}
+          </div>
         </form>
       </div>
     </div>

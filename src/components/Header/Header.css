@@ -47,3 +47,27 @@
   width: 40px;
   height: 40px;
 }
+
+.header__login {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  margin-left: none;
+  margin-right: 20px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.header__register {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}

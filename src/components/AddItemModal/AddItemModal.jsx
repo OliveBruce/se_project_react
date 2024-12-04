@@ -7,12 +7,10 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
   const [weather, setSelectedWeatherType] = useState("");
 
   const handleNameChange = (e) => {
-    console.log(e.target.value);
     setName(e.target.value);
   };
 
   const handleUrlChange = (e) => {
-    console.log(e.target.value);
     setUrl(e.target.value);
   };
 
