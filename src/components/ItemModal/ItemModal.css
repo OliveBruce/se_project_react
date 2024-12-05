@@ -19,13 +19,13 @@
 }
 
 .modal__footer {
-  margin: 0 0 32px 32px;
+  margin: 0 32px 32px;
   display: flex;
   align-items: flex-start;
 }
 
-.modal__delete {
-  margin: 0 32px 0 auto;
+.modal__delete-button_visible {
+  margin: 0;
   padding: 0;
   border: none;
   background-color: transparent;
@@ -33,6 +33,10 @@
   font-size: 20px;
   line-height: 24px;
   font-weight: 700;
+}
+
+.modal__description {
+  margin: 0 auto 0 0;
 }
 
 .modal__caption {

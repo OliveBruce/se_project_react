@@ -100,10 +100,15 @@
   height: 36px;
   border: none;
   border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 1);
   font-size: 16px;
   line-height: 20px;
   color: #fff;
+}
+
+.modal__submit:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .modal__redirect-btn {

@@ -241,6 +241,7 @@ function App() {
                     clothingItems={clothingItems}
                     isLoggedIn={isLoggedIn}
                     handleCardLike={handleCardLike}
+                    isLiked={isLiked}
                   />
                 }
               />
