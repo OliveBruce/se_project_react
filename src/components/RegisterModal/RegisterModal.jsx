@@ -68,8 +68,9 @@ const RegisterModal = ({
         <input
           type="email"
           className="modal__input"
-          id="email"
+          id="register-email"
           placeholder="Email"
+          autoComplete="off"
           value={email}
           onChange={handleEmailChange}
           required
@@ -80,8 +81,9 @@ const RegisterModal = ({
         <input
           type="password"
           className="modal__input"
-          id="password"
+          id="new-password"
           placeholder="Password"
+          autoComplete="new-password"
           value={password}
           onChange={handlePasswordChange}
           required
@@ -92,7 +94,7 @@ const RegisterModal = ({
         <input
           type="text"
           className="modal__input"
-          id="name"
+          id="user-name"
           placeholder="Name"
           value={name}
           onChange={handleNameChange}

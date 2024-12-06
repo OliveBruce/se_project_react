@@ -15,7 +15,7 @@ const LoginModal = ({ onClose, onLogin, handleRegisterRoute, isOpen }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin({ email, password, name, avatar }, resetForm);
+    onLogin({ email, password }, resetForm);
   };
 
   useEffect(() => {
@@ -51,8 +51,9 @@ const LoginModal = ({ onClose, onLogin, handleRegisterRoute, isOpen }) => {
         <input
           type="email"
           className="modal__input"
-          id="email"
+          id="login-email"
           placeholder="Email"
+          autoComplete="off"
           value={email}
           onChange={handleEmailChange}
         />
@@ -62,8 +63,9 @@ const LoginModal = ({ onClose, onLogin, handleRegisterRoute, isOpen }) => {
         <input
           type="password"
           className="modal__input"
-          id="password"
+          id="current-password"
           placeholder="Password"
+          autoComplete="current-password"
           value={password}
           onChange={handlePasswordChange}
         />

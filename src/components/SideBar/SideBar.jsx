@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./SideBar.css";
-import avatar from "../../assets/avatar.png";
-import { useContext } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function SideBar({ handleEditProfileClick, onSignOut }) {
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <div className="sidebar">

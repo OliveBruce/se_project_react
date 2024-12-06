@@ -38,7 +38,6 @@ function App() {
   const [currentTempUnit, setCurrentTempUnit] = useState("F");
   const [currentUser, setCurrentUser] = useState({});
   const [clothingItems, setClothingItems] = useState([]);
-  const [userData, setUserData] = useState({ username: "", email: "" });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +45,6 @@ function App() {
   const navigate = useNavigate();
 
   const handleCardClick = (card) => {
-    console.log(card);
     setActiveModal("preview");
     setSelectedCard(card);
   };
@@ -95,15 +93,19 @@ function App() {
       .catch((err) => console.error("Error updating profile:", err));
   };
 
-  const handleAddItem = async (newItem) => {
+  const handleAddItem = (newItem) => {
+    console.log(newItem);
+    const name = newItem.name;
+    const imageUrl = newItem.imageUrl;
+    const weather = newItem.weather;
+
     const token = getToken();
-    try {
-      const addedItem = await addClothingItem(newItem, token);
-      setClothingItems((prevItems) => [addedItem.data, ...prevItems]);
-      closeActiveModal();
-    } catch (err) {
-      console.error("Error adding new item:", err);
-    }
+    addClothingItem({ name, imageUrl, weather }, token)
+      .then((res) => {
+        setClothingItems([res.data, ...clothingItems]);
+        closeActiveModal();
+      })
+      .catch((err) => console.error("Error updating profile:", err));
   };
 
   const handleRegister = ({ email, password, name, avatar }) => {
@@ -120,30 +122,29 @@ function App() {
     if (!email || !password) {
       return;
     }
-    setIsLoading(true);
+
     auth
       .login({ email, password })
-      .then((data) => {
-        if (data.token) {
-          setToken(data.token);
-          auth
-            .getUserProfile(data)
-            .then((user) => {
-              setUserData(user);
-            })
-            .finally(() => {
-              setIsLoading(false);
-              setIsLoggedIn(true);
-              navigate("/profile");
-              closeActiveModal();
-            });
+      .then((res) => {
+        console.log(res);
+        if (res.token) {
+          localStorage.setItem("jwt", res.token);
+          setToken(res.token);
+          setIsLoggedIn(true);
+
+          auth.getUserProfile(res.token).then((res) => {
+            setCurrentUser(res);
+            closeActiveModal();
+            navigate("/profile");
+          });
         }
       })
-      .catch(console.error);
+      .catch((err) => console.error("Login Failed", err));
   };
 
   const onSignOut = () => {
     localStorage.removeItem("jwt");
+    setCurrentUser({});
     setIsLoggedIn(false);
     closeActiveModal();
     navigate("/");
@@ -198,7 +199,6 @@ function App() {
   useEffect(() => {
     getItems()
       .then((data) => {
-        console.log(data);
         setClothingItems(data);
       })
       .catch(console.error);
