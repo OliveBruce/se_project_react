@@ -40,7 +40,7 @@ export default function EditProfileModal({
         Name *{" "}
         <input
           required
-          value={values.name}
+          value={values.name || ""}
           name="name"
           autoComplete="off"
           type="text"
@@ -54,7 +54,7 @@ export default function EditProfileModal({
         Avatar *{" "}
         <input
           required
-          value={values.avatar}
+          value={values.avatar || ""}
           autoComplete="off"
           type="url"
           className="modal__input"
