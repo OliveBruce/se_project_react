@@ -124,7 +124,6 @@ function App() {
       const token = getToken();
       return addClothingItem({ name, imageUrl, weather }, token).then((res) => {
         setClothingItems([res.data, ...clothingItems]);
-        closeActiveModal();
       });
     }
     handleSubmit(addItem);
@@ -175,23 +174,24 @@ function App() {
 
   const handleCardLike = ({ id, isLiked }) => {
     const token = getToken();
-
-    function likeCard() {
-      return !isLiked
-        ? addCardLike(id, token).then((updatedCard) => {
+    !isLiked
+      ? addCardLike(id, token)
+          .then((updatedCard) => {
             setClothingItems((cards) =>
               cards.map((item) => (item._id === id ? updatedCard.data : item))
             );
             setIsLiked(true);
           })
-        : removeCardLike(id, token).then((updatedCard) => {
+
+          .catch((err) => console.log(err))
+      : removeCardLike(id, token)
+          .then((updatedCard) => {
             setClothingItems((cards) =>
               cards.map((item) => (item._id === id ? updatedCard.data : item))
             );
             setIsLiked(false);
-          });
-    }
-    handleSubmit(likeCard);
+          })
+          .catch((err) => console.error("Error toggling card like:", err));
   };
 
   const handleCardDelete = () => {
