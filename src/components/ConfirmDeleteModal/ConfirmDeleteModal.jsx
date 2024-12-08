@@ -1,7 +1,13 @@
 import "./ConfirmDeleteModal.css";
 import close from "../../assets/close.svg";
 
-function ConfirmDeleteModal({ activeModal, onClose, card, handleCardDelete }) {
+function ConfirmDeleteModal({
+  activeModal,
+  onClose,
+  card,
+  handleCardDelete,
+  isLoading,
+}) {
   const onCardDelete = () => {
     handleCardDelete(card);
   };

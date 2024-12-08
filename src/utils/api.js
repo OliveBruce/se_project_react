@@ -66,4 +66,5 @@ export {
   checkResponse,
   addCardLike,
   removeCardLike,
+  request,
 };

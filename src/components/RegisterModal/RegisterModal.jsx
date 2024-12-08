@@ -1,50 +1,31 @@
 import React, { useState, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
+import { useForm } from "../../hooks/useForm.js";
 
 const RegisterModal = ({
   onClose,
   handleRegister,
   handleLoginRoute,
   isOpen,
+  isLoading,
 }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [avatar, setUrl] = useState("");
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleUrlChange = (e) => {
-    setUrl(e.target.value);
-  };
+  const { values, handleChange, setValues } = useForm({
+    email: "",
+    password: "",
+    name: "",
+    avatar: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleRegister({ email, password, name, avatar });
+    handleRegister(values);
   };
 
   useEffect(() => {
     if (isOpen) {
-      resetForm();
+      setValues({ email: "", password: "", name: "", avatar: "" });
     }
-  }, [isOpen]);
-
-  function resetForm() {
-    setEmail("");
-    setPassword("");
-    setName("");
-    setUrl("");
-  }
+  }, [isOpen, setValues]);
 
   return (
     <ModalWithForm
@@ -53,6 +34,7 @@ const RegisterModal = ({
       onClose={onClose}
       isOpen={isOpen}
       onSubmit={handleSubmit}
+      isLoading={isLoading}
       redirectButton={
         <button
           type="button"
@@ -63,53 +45,57 @@ const RegisterModal = ({
         </button>
       }
     >
-      <label htmlFor="email" className="modal__label">
+      <label className="modal__label">
         Email*{" "}
         <input
           type="email"
+          name="email"
           className="modal__input"
           id="register-email"
           placeholder="Email"
           autoComplete="off"
-          value={email}
-          onChange={handleEmailChange}
+          value={values.email}
+          onChange={handleChange}
           required
         />
       </label>
-      <label htmlFor="password" className="modal__label">
+      <label className="modal__label">
         Password*{" "}
         <input
           type="password"
+          name="password"
           className="modal__input"
           id="new-password"
           placeholder="Password"
           autoComplete="new-password"
-          value={password}
-          onChange={handlePasswordChange}
+          value={values.password}
+          onChange={handleChange}
           required
         />
       </label>
-      <label htmlFor="name" className="modal__label">
+      <label className="modal__label">
         Name{" "}
         <input
           type="text"
+          name="name"
           className="modal__input"
           id="user-name"
           placeholder="Name"
-          value={name}
-          onChange={handleNameChange}
+          value={values.name}
+          onChange={handleChange}
           required
         />
       </label>
-      <label htmlFor="avatar" className="modal__label">
+      <label className="modal__label">
         Avatar{" "}
         <input
           type="url"
+          name="avatar"
           className="modal__input"
           id="avatar"
           placeholder="Avatar URL"
-          value={avatar}
-          onChange={handleUrlChange}
+          value={values.avatar}
+          onChange={handleChange}
           required
         />
       </label>

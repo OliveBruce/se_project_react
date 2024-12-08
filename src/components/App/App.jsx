@@ -77,45 +77,66 @@ function App() {
     setActiveModal("");
   };
 
+  useEffect(() => {
+    if (!activeModal) return;
+
+    const handleEscClose = (e) => {
+      if (e.key === "Escape") {
+        closeActiveModal();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscClose);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  }, [activeModal]);
+
+  function handleSubmit(request) {
+    setIsLoading(true);
+    request()
+      .then(closeActiveModal)
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  }
+
   const handleToggleSwitchChange = () => {
     if (currentTempUnit === "C") setCurrentTempUnit("F");
     if (currentTempUnit === "F") setCurrentTempUnit("C");
   };
 
   const onProfileSubmit = ({ name, avatar }) => {
-    const token = getToken();
-    auth
-      .editProfile({ name, avatar }, token)
-      .then((res) => {
+    function submitProfile() {
+      const token = getToken();
+      return auth.editProfile({ name, avatar }, token).then((res) => {
         setCurrentUser({ ...currentUser, ...res });
-        closeActiveModal();
-      })
-      .catch((err) => console.error("Error updating profile:", err));
+      });
+    }
+    handleSubmit(submitProfile);
   };
 
   const handleAddItem = (newItem) => {
-    console.log(newItem);
-    const name = newItem.name;
-    const imageUrl = newItem.imageUrl;
-    const weather = newItem.weather;
-
-    const token = getToken();
-    addClothingItem({ name, imageUrl, weather }, token)
-      .then((res) => {
+    function addItem() {
+      const name = newItem.name;
+      const imageUrl = newItem.imageUrl;
+      const weather = newItem.weather;
+      const token = getToken();
+      return addClothingItem({ name, imageUrl, weather }, token).then((res) => {
         setClothingItems([res.data, ...clothingItems]);
         closeActiveModal();
-      })
-      .catch((err) => console.error("Error updating profile:", err));
+      });
+    }
+    handleSubmit(addItem);
   };
 
   const handleRegister = ({ email, password, name, avatar }) => {
-    auth
-      .register({ email, password, name, avatar })
-      .then(() => {
+    function registerUser() {
+      return auth.register({ email, password, name, avatar }).then(() => {
         handleLogin({ email, password });
-        closeActiveModal();
-      })
-      .catch(console.error);
+      });
+    }
+    handleSubmit(registerUser);
   };
 
   const handleLogin = ({ email, password }) => {
@@ -123,10 +144,8 @@ function App() {
       return;
     }
 
-    auth
-      .login({ email, password })
-      .then((res) => {
-        console.log(res);
+    function loginUser() {
+      return auth.login({ email, password }).then((res) => {
         if (res.token) {
           localStorage.setItem("jwt", res.token);
           setToken(res.token);
@@ -134,12 +153,12 @@ function App() {
 
           auth.getUserProfile(res.token).then((res) => {
             setCurrentUser(res);
-            closeActiveModal();
             navigate("/profile");
           });
         }
-      })
-      .catch((err) => console.error("Login Failed", err));
+      });
+    }
+    handleSubmit(loginUser);
   };
 
   const onSignOut = () => {
@@ -157,34 +176,33 @@ function App() {
   const handleCardLike = ({ id, isLiked }) => {
     const token = getToken();
 
-    !isLiked
-      ? addCardLike(id, token)
-          .then((updatedCard) => {
+    function likeCard() {
+      return !isLiked
+        ? addCardLike(id, token).then((updatedCard) => {
             setClothingItems((cards) =>
               cards.map((item) => (item._id === id ? updatedCard.data : item))
             );
             setIsLiked(true);
           })
-          .catch((err) => console.log(err))
-      : removeCardLike(id, token)
-          .then((updatedCard) => {
+        : removeCardLike(id, token).then((updatedCard) => {
             setClothingItems((cards) =>
               cards.map((item) => (item._id === id ? updatedCard.data : item))
             );
             setIsLiked(false);
-          })
-          .catch((err) => console.error("Error toggling card like:", err));
+          });
+    }
+    handleSubmit(likeCard);
   };
 
   const handleCardDelete = () => {
-    deleteClothingItem(selectedCard._id)
-      .then(() => {
+    function deleteCard() {
+      return deleteClothingItem(selectedCard._id).then(() => {
         setClothingItems((prev) =>
           prev.filter((item) => item._id !== selectedCard._id)
         );
-        closeActiveModal();
-      })
-      .catch(console.error);
+      });
+    }
+    handleSubmit(deleteCard);
   };
 
   useEffect(() => {
@@ -270,23 +288,27 @@ function App() {
             isOpen={activeModal === "add-garment"}
             onClose={closeActiveModal}
             onAddItem={handleAddItem}
+            isLoading={isLoading}
           />
           <RegisterModal
             isOpen={activeModal === "register"}
             onClose={closeActiveModal}
             handleRegister={handleRegister}
             handleLoginRoute={handleLoginRoute}
+            isLoading={isLoading}
           />
           <LoginModal
             isOpen={activeModal === "login"}
             onClose={closeActiveModal}
             onLogin={handleLogin}
             handleRegisterRoute={handleRegisterRoute}
+            isLoading={isLoading}
           />
           <EditProfileModal
             isOpen={activeModal === "edit"}
             onClose={closeActiveModal}
             onProfileSubmit={onProfileSubmit}
+            isLoading={isLoading}
           />
           <ItemModal
             activeModal={activeModal}
@@ -294,12 +316,14 @@ function App() {
             card={selectedCard}
             onClose={closeActiveModal}
             confirmationModal={handleDeleteCardClick}
+            isLoading={isLoading}
           />
           <ConfirmDeleteModal
             activeModal={activeModal}
             item={selectedCard}
             onClose={closeActiveModal}
             handleCardDelete={handleCardDelete}
+            isLoading={isLoading}
           />
         </CurrentTemperatureUnitContext.Provider>
       </div>

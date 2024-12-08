@@ -1,39 +1,24 @@
 import React, { useState, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
+import { useForm } from "../../hooks/useForm.js";
 
-const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
-  const [name, setName] = useState("");
-  const [imageUrl, setUrl] = useState("");
-  const [weather, setSelectedWeatherType] = useState("");
-
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleUrlChange = (e) => {
-    setUrl(e.target.value);
-  };
-
-  const handleWeatherChange = (e) => {
-    setSelectedWeatherType(e.target.value);
-  };
+const AddItemModal = ({ onClose, onAddItem, isOpen, isLoading }) => {
+  const { values, handleChange, setValues } = useForm({
+    name: "",
+    imageUrl: "",
+    weather: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddItem({ name, imageUrl, weather }, resetForm);
+    onAddItem(values);
   };
 
   useEffect(() => {
     if (isOpen) {
-      resetForm();
+      setValues({ name: "", imageUrl: "", weather: "" });
     }
-  }, [isOpen]);
-
-  function resetForm() {
-    setName("");
-    setUrl("");
-    setSelectedWeatherType("");
-  }
+  }, [isOpen, setValues]);
 
   return (
     <ModalWithForm
@@ -42,64 +27,64 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
       onClose={onClose}
       isOpen={isOpen}
       onSubmit={handleSubmit}
+      isLoading={isLoading}
     >
-      <label htmlFor="name" className="modal__label">
+      <label className="modal__label">
         Name{" "}
         <input
           type="text"
           className="modal__input"
           id="name"
           placeholder="Name"
-          value={name}
-          onChange={handleNameChange}
+          name="name"
+          value={values.name}
+          onChange={handleChange}
         />
       </label>
-      <label htmlFor="imageURL" className="modal__label">
+      <label className="modal__label">
         Image{" "}
         <input
           type="url"
           className="modal__input"
           id="imageURL"
           placeholder="Image URL"
-          value={imageUrl}
-          onChange={handleUrlChange}
+          name="imageUrl"
+          value={values.imageUrl}
+          onChange={handleChange}
         />
       </label>
       <fieldset className="modal__radio-buttons">
         <legend className="modal__legend">Select the weather type:</legend>
-        <label htmlFor="hot" className="modal__label modal__label_type_radio">
+        <label className="modal__label modal__label_type_radio">
           <input
             id="hot"
             type="radio"
             className="modal__radio-input"
-            name="temp"
+            name="weather"
             value={"hot"}
-            onChange={handleWeatherChange}
-            checked={weather === "hot"}
+            onChange={handleChange}
           />
           <span>Hot</span>
         </label>
-        <label htmlFor="warm" className="modal__label modal__label_type_radio">
+        <label className="modal__label modal__label_type_radio">
           <input
             id="warm"
             type="radio"
             className="modal__radio-input"
-            name="temp"
+            name="weather"
             value={"warm"}
-            onChange={handleWeatherChange}
-            checked={weather === "warm"}
+            onChange={handleChange}
           />
           <span>Warm</span>
         </label>
-        <label htmlFor="cold" className="modal__label modal__label_type_radio">
+        <label className="modal__label modal__label_type_radio">
           <input
             id="cold"
             type="radio"
             className="modal__radio-input"
-            name="temp"
+            name="weather"
             value={"cold"}
-            onChange={handleWeatherChange}
-            checked={weather === "cold"}
+            onChange={handleChange}
           />
           <span>Cold</span>
         </label>

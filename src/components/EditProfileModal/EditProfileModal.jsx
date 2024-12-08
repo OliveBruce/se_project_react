@@ -2,66 +2,66 @@ import { useContext, useState, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "../ModalWithForm/ModalWithForm.css";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useForm } from "../../hooks/useForm";
 
-export default function EditProfileModal({ isOpen, onClose, onProfileSubmit }) {
+export default function EditProfileModal({
+  isOpen,
+  onClose,
+  onProfileSubmit,
+  isLoading,
+}) {
   const currentUser = useContext(CurrentUserContext);
-  const [name, setName] = useState("");
-  const [avatar, setAvatar] = useState("");
+  const { values, handleChange, setValues } = useForm({
+    name: "",
+    avatar: "",
+  });
 
   useEffect(() => {
     if (currentUser) {
-      setName(currentUser.name || "");
-      setAvatar(currentUser.avatar || "");
+      setValues({ name: "", avatar: "" });
     }
-  }, [isOpen, currentUser]);
-
-  function handleAvatarChange(e) {
-    setAvatar(e.target.value);
-  }
-
-  function handleNameChange(e) {
-    setName(e.target.value);
-  }
+  }, [isOpen, currentUser, setValues]);
 
   function handleProfileSubmit(e) {
     e.preventDefault();
-    onProfileSubmit({ name, avatar });
+    onProfileSubmit(values);
   }
 
   return (
     <ModalWithForm
-      buttonText="Save Changes"
+      buttonText={isLoading ? "Saving..." : "Save changes"}
       title="Change Profile Data"
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleProfileSubmit}
       className="modal__save-button"
     >
-      <label htmlFor="name" className="modal__label">
+      <label className="modal__label">
         Name *{" "}
         <input
           required
-          value={name}
+          value={values.name}
+          name="name"
           autoComplete="off"
           type="text"
           className="modal__input"
           id="modal-name"
           placeholder="Enter your name"
-          onChange={handleNameChange}
+          onChange={handleChange}
         />
       </label>
-      <label htmlFor="avatar" className="modal__label">
+      <label className="modal__label">
         Avatar *{" "}
         <input
           required
-          value={avatar}
+          value={values.avatar}
           autoComplete="off"
           type="url"
           className="modal__input"
           id="modal-avatar"
           name="avatar"
           placeholder="Enter avatar URL"
-          onChange={handleAvatarChange}
+          onChange={handleChange}
         />
       </label>
     </ModalWithForm>

@@ -9,6 +9,7 @@ function ModalWithForm({
   isOpen,
   onSubmit,
   redirectButton,
+  isLoading,
 }) {
   return (
     <div className={`modal ${isOpen && "modal_opened"}`}>
@@ -21,7 +22,7 @@ function ModalWithForm({
           {children}
           <div className="modal__buttons-wrapper">
             <button type="submit" className="modal__submit">
-              {buttonText}
+              {isLoading ? "Saving" : buttonText}
             </button>
             {redirectButton && redirectButton}
           </div>

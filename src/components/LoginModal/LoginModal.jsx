@@ -1,33 +1,29 @@
 import React, { useState, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
+import { useForm } from "../../hooks/useForm.js";
 
-const LoginModal = ({ onClose, onLogin, handleRegisterRoute, isOpen }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+const LoginModal = ({
+  onClose,
+  onLogin,
+  handleRegisterRoute,
+  isOpen,
+  isLoading,
+}) => {
+  const { values, handleChange, setValues } = useForm({
+    email: "",
+    password: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin({ email, password }, resetForm);
+    onLogin(values);
   };
 
   useEffect(() => {
     if (isOpen) {
-      resetForm();
+      setValues({ email: "", password: "" });
     }
-  }, [isOpen]);
-
-  function resetForm() {
-    setEmail("");
-    setPassword("");
-  }
+  }, [isOpen, setValues]);
 
   return (
     <ModalWithForm
@@ -36,6 +32,7 @@ const LoginModal = ({ onClose, onLogin, handleRegisterRoute, isOpen }) => {
       onClose={onClose}
       isOpen={isOpen}
       onSubmit={handleSubmit}
+      isLoading={isLoading}
       redirectButton={
         <button
           type="button"
@@ -46,28 +43,30 @@ const LoginModal = ({ onClose, onLogin, handleRegisterRoute, isOpen }) => {
         </button>
       }
     >
-      <label htmlFor="email" className="modal__label">
+      <label className="modal__label">
         Email*{" "}
         <input
           type="email"
+          name="email"
           className="modal__input"
           id="login-email"
           placeholder="Email"
           autoComplete="off"
-          value={email}
-          onChange={handleEmailChange}
+          value={values.email}
+          onChange={handleChange}
         />
       </label>
-      <label htmlFor="password" className="modal__label">
+      <label className="modal__label">
         Password*{" "}
         <input
           type="password"
+          name="password"
           className="modal__input"
           id="current-password"
           placeholder="Password"
           autoComplete="current-password"
-          value={password}
-          onChange={handlePasswordChange}
+          value={values.password}
+          onChange={handleChange}
         />
       </label>
     </ModalWithForm>

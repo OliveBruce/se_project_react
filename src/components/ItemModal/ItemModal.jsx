@@ -3,7 +3,13 @@ import close from "../../assets/close.svg";
 import { useContext } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function ItemModal({ activeModal, onClose, card, confirmationModal }) {
+function ItemModal({
+  activeModal,
+  onClose,
+  card,
+  confirmationModal,
+  isLoading,
+}) {
   const currentUser = useContext(CurrentUserContext);
   const isOwner = card.owner === currentUser._id;
 
