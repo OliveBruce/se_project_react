@@ -76,3 +76,8 @@ export const coordinates = {
 };
 
 export const APIkey = "d509e127351c1ec94ea2c854b4b652db";
+
+export const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://api.whatshouldiwear.epicgamer.org"
+    : "http://localhost:3001";

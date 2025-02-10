@@ -1,9 +1,9 @@
 import { request } from "./api";
 
-export const BASE_URL = "http://localhost:3001";
+import { BASE_URL } from "./contants";
 
 export const register = ({ email, password, name, avatar }) => {
-  return request(`${BASE_URL}/register`, {
+  return request(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -14,7 +14,7 @@ export const register = ({ email, password, name, avatar }) => {
 };
 
 export const login = ({ email, password }) => {
-  return request(`${BASE_URL}/login`, {
+  return request(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
       Accept: "application/json",
